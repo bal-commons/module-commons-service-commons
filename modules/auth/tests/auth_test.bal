@@ -13,10 +13,10 @@ function request(map<string> headers) returns http:Request {
     return req;
 }
 
-function token(map<json> claims, string issuer = "thunder") returns string|error {
+function token(map<json> claims, string issuer = "test-idp") returns string|error {
     return jwt:issue({
         issuer,
-        audience: "tenant-app",
+        audience: "my-app",
         customClaims: claims,
         signatureConfig: {config: {keyFile: KEY}}
     });
@@ -53,8 +53,8 @@ function apiKeyGrantsAllScopes() returns error? {
 
 @test:Config
 function jwtClaimsBecomeIdentity() returns error? {
-    Authenticator authn = check new ({enableJwtAuth: true, jwtCertFile: CERT, jwtIssuer: "thunder",
-        jwtAudience: "tenant-app", enforceScopes: true});
+    Authenticator authn = check new ({enableJwtAuth: true, jwtCertFile: CERT, jwtIssuer: "test-idp",
+        jwtAudience: "my-app", enforceScopes: true});
     string jwt = check token({"sub": "priya", "groups": ["PropertyManager"], "scope": "notification:read notification:send"});
     CallerIdentity caller = check authn.authenticate(request({"Authorization": "Bearer " + jwt})).ensureType();
     test:assertEquals(caller, {userId: "priya", roles: ["PropertyManager"], scopes: ["notification:read", "notification:send"]});
@@ -73,7 +73,7 @@ function jwtNestedClaimPaths() returns error? {
 
 @test:Config
 function jwtRejectsWrongIssuerAndHeaders() returns error? {
-    Authenticator authn = check new ({enableJwtAuth: true, jwtCertFile: CERT, jwtIssuer: "thunder"});
+    Authenticator authn = check new ({enableJwtAuth: true, jwtCertFile: CERT, jwtIssuer: "test-idp"});
     string jwt = check token({"sub": "mallory"}, "elsewhere");
     test:assertTrue(authn.authenticate(request({"Authorization": "Bearer " + jwt})) is http:Unauthorized);
     test:assertTrue(authn.authenticate(request({"x-user-id": "mallory"})) is http:Unauthorized);

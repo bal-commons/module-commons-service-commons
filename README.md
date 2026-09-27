@@ -12,8 +12,6 @@ Shared plumbing for the commons services. It declares no listeners, so importing
 
 Auth settings mirror the workflow module's `management.rest` configurables.
 
-Design: `docs/demos/tenant-app/proposal.md` §6.
-
 ## Transactions go through `atomic`
 
 Ballerina starts its transaction coordinator, an HTTP listener, once for **each package** that contains a

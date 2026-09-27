@@ -15,7 +15,7 @@ public type AuthConfig record {|
     string jwtCertFile = "";
     # Claim holding the user ID; dotted paths address nested claims
     string userIdClaim = "sub";
-    # Claim holding the roles; Thunder releases them as `groups`
+    # Claim holding the roles, e.g. `groups` or `realm_access.roles`
     string rolesClaim = "groups";
     # Requires the operation's scope in the `scope`/`scp` claim
     boolean enforceScopes = false;
