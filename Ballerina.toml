@@ -1,0 +1,29 @@
+[package]
+org = "commons"
+name = "service_commons"
+version = "0.1.0"
+distribution = "2201.13.4"
+authors = ["Hasitha Aravinda"]
+license = ["Apache-2.0"]
+repository = "https://github.com/bal-commons/module-commons-service-commons"
+keywords = ["commons", "service", "auth", "jdbc", "sse", "webhook"]
+readme = "README.md"
+
+[build-options]
+observabilityIncluded = true
+
+[[package.modules]]
+name = "service_commons.auth"
+export = true
+
+[[package.modules]]
+name = "service_commons.db"
+export = true
+
+[[package.modules]]
+name = "service_commons.sse"
+export = true
+
+[[package.modules]]
+name = "service_commons.webhook"
+export = true
