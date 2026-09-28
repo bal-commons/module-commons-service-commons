@@ -11,6 +11,10 @@ normally use it only through those packages, which re-export `configureAuth`, `b
 | `LiveStream` | A service's SSE stream: fetches a single-use ticket, then reconnects with backoff (1–30 s), optionally replaying missed events |
 | `tokens`, `relativeTime` | The `--bc-*` design tokens (with dark-mode defaults) and "3 min ago" formatting |
 
+The [guide](docs/guide.md) covers what all the bal-commons Web Components share: installing, authentication
+adapters, the live model, proxies and CORS, theming, the `correlationId` convention, events, framework notes and
+TypeScript types.
+
 ```sh
 npm install && npm run build
 ```
