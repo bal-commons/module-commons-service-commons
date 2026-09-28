@@ -32,9 +32,10 @@ export async function request<T>(baseUrl: string, path: string, options: Request
     let code = "HTTP_" + response.status;
     let message = response.statusText;
     try {
-      const parsed = await response.json() as {code?: string; message?: string};
-      code = parsed.code ?? code;
-      message = parsed.message ?? message;
+      // Commons services answer {code, message}; the workflow management API answers {error: {message}}.
+      const parsed = await response.json() as {code?: string; message?: string; error?: {code?: string; message?: string}};
+      code = parsed.code ?? parsed.error?.code ?? code;
+      message = parsed.message ?? parsed.error?.message ?? message;
     } catch {
       // Not a commons error body.
     }
